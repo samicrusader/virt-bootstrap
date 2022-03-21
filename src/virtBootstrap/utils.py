@@ -272,7 +272,7 @@ def safe_untar(src, dest):
     virt_sandbox = ['virt-sandbox',
                     '-c', LIBVIRT_CONN,
                     '--name=bootstrap_%s' % os.getpid(),
-                    '-m', 'host-bind:/mnt=' + dest]  # Bind destination folder
+                    '-m', 'host-bind:/srv=' + dest]  # Bind destination folder
 
     # Compression type is auto detected from tar
     # Exclude files under /dev to avoid "Cannot mknod: Operation not permitted"
@@ -280,7 +280,7 @@ def safe_untar(src, dest):
     # "Cannot open: Permission denied" when symlynks are extracted, with the
     # qemu:/// driver. This flag must not be used outside virt-sandbox.
     params = ['--', '/bin/tar', 'xf', src,
-              '-C', '/mnt',
+              '-C', '/srv',
               '--exclude', 'dev/*',
               '--exclude', '*/%s*' % whiteout.PREFIX,
               '--overwrite',
