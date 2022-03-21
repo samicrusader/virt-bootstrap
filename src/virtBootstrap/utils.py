@@ -261,7 +261,7 @@ def execute(cmd):
     if err:
         logger.debug("Stderr:\n%s", err.decode('utf-8'))
 
-    if proc.returncode != 0:
+    if proc.returncode != 0 and not proc.returncode == 13: # 13 is the stderr of "not a dynamic executable"
         raise subprocess.CalledProcessError(proc.returncode, cmd_str)
 
 
