@@ -270,7 +270,6 @@ def safe_untar(src, dest):
     Extract tarball within LXC container for safety.
     """
     virt_sandbox = ['virt-sandbox',
-                    '--security=inherit',
                     '-c', LIBVIRT_CONN,
                     '--name=bootstrap_%s' % os.getpid(),
                     '-m', 'host-bind:/mnt=' + dest]  # Bind destination folder
@@ -289,7 +288,7 @@ def safe_untar(src, dest):
     # Preserve file attributes following the specification in
     # https://github.com/opencontainers/image-spec/blob/master/layer.md
     if os.geteuid() == 0:
-        params.extend(['--acls', '--xattrs', '--selinux'])
+        params.extend(['--acls', '--xattrs'])
     execute(virt_sandbox + params)
 
 
